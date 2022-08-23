@@ -32,7 +32,7 @@ Assumption: some experience with [terraform infrastructure as code][1].
 4. Configure terraform `github_team_membership` to place the user in the team:
 
     ```terraform
-    resource "github_team_membership" "some_team_membership" {
+    resource "github_team_membership" "bot-is-member-of-bots-readonly" {
       team_id  = github_team.bots-readonly.id
       username = github_membership.bot.username
       role     = "member"
@@ -42,11 +42,12 @@ Assumption: some experience with [terraform infrastructure as code][1].
 5. Configure terraform `github_team_repository` to grant read-only access to the team to the repositories you want to wire up:
 
     ```terraform
-    resource "github_team_repository" "some_team_repo" {
-      team_id    = github_team.some_team.id
-      repository = github_repository.some_repo.name
+    resource "github_team_repository" "bots-readonly-has-access-to-some-repo" {
+      team_id    = github_team.bots-readonly.id
+      repository = "some-repo"
       permission = "pull"
     }
+    # ... n per repository
     ```
 
 6. `terraform apply`, and `yes` if the changes look good to you.
